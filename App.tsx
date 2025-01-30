@@ -1,20 +1,50 @@
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { ActivityIndicator, View } from 'react-native';
+import LoginScreen from './src/screens/LoginScreen';
+import MainTabs from './src/navigation/MainTabs';
+import { AuthProvider, useAuth } from './src/contexts/AuthContext';
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+function Navigation() {
+  const { user, isLoading } = useAuth();
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#6200ee" />
+      </View>
+    );
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        contentStyle: { backgroundColor: 'white' }
+      }}
+    >
+      {user ? (
+        <Stack.Screen name="MainTabs" component={MainTabs} />
+      ) : (
+        <Stack.Screen name="Login" component={LoginScreen} />
+      )}
+    </Stack.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default function App() {
+  return (
+    <SafeAreaProvider>
+      <StatusBar style="auto" />
+      <AuthProvider>
+        <NavigationContainer>
+          <Navigation />
+        </NavigationContainer>
+      </AuthProvider>
+    </SafeAreaProvider>
+  );
+}

@@ -12,8 +12,12 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.musaq.MyArabicLearner"
     },
     "android": {
       "adaptiveIcon": {
@@ -23,6 +27,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c1cde764-15e1-451f-b703-5ad986d574f7"
+      }
+    },
+    "owner": "musa-q"
   }
 }
