@@ -7,10 +7,11 @@ import {
     ScrollView,
     ActivityIndicator,
     TextInput,
+    SafeAreaView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { apiClient } from '../../utils/apiClient';
-import { capitaliseWords } from '../../utils/textUtils';
+import { apiClient } from '../utils/apiClient';
+import { capitaliseWords } from '../utils/textUtils';
 
 interface Category {
     id: string;
@@ -74,48 +75,32 @@ export function ChooseWordsSection({ onChoose, setCategoryName }: Props) {
     }
 
     return (
-        <ScrollView style={styles.container}>
-            <Text style={styles.title}>Flashcards</Text>
+        <SafeAreaView style={styles.container}>
+            <ScrollView style={styles.scrollContent}>
+                <View style={styles.contentSection}>
+                    <Text style={styles.title}>Choose a topic</Text>
+                </View>
 
-            <View style={styles.searchContainer}>
-                <TouchableOpacity
-                    onPress={() => setShowSearch(!showSearch)}
-                    style={styles.searchIcon}
-                >
-                    <Ionicons name="search" size={24} color="#6200ee" />
-                </TouchableOpacity>
-                {showSearch && (
-                    <TextInput
-                        style={styles.searchInput}
-                        placeholder="Search categories..."
-                        value={searchQuery}
-                        onChangeText={setSearchQuery}
-                    />
-                )}
-            </View>
-
-            <View style={styles.categoriesContainer}>
-                {searchQuery ? (
-                    filteredCategories.map((category) => (
-                        <CategoryCard
-                            key={category.id}
-                            category={category}
-                            onSelect={() => {
-                                onChoose(category.id);
-                                setCategoryName(category.category_name);
-                            }}
+                <View style={styles.searchContainer}>
+                    <TouchableOpacity
+                        onPress={() => setShowSearch(!showSearch)}
+                        style={styles.searchIcon}
+                    >
+                        <Ionicons name="search" size={24} color="#6200ee" />
+                    </TouchableOpacity>
+                    {showSearch && (
+                        <TextInput
+                            style={styles.searchInput}
+                            placeholder="Search categories..."
+                            value={searchQuery}
+                            onChangeText={setSearchQuery}
                         />
-                    ))
-                ) : selectedGroup ? (
-                    <>
-                        <TouchableOpacity
-                            style={styles.backButton}
-                            onPress={() => setSelectedGroup(null)}
-                        >
-                            <Ionicons name="arrow-back" size={24} color="#6200ee" />
-                            <Text style={styles.backButtonText}>Back to groups</Text>
-                        </TouchableOpacity>
-                        {groupedCategories[selectedGroup]?.map((category) => (
+                    )}
+                </View>
+
+                <View style={styles.categoriesContainer}>
+                    {searchQuery ? (
+                        filteredCategories.map((category) => (
                             <CategoryCard
                                 key={category.id}
                                 category={category}
@@ -124,26 +109,46 @@ export function ChooseWordsSection({ onChoose, setCategoryName }: Props) {
                                     setCategoryName(category.category_name);
                                 }}
                             />
-                        ))}
-                    </>
-                ) : (
-                    Object.entries(groupedCategories).map(([group, groupCategories]) => (
-                        <TouchableOpacity
-                            key={group}
-                            style={styles.groupCard}
-                            onPress={() => setSelectedGroup(group)}
-                        >
-                            <Text style={styles.groupTitle}>
-                                {capitaliseWords(group)}
-                            </Text>
-                            <Text style={styles.groupCount}>
-                                {groupCategories.length} categories
-                            </Text>
-                        </TouchableOpacity>
-                    ))
-                )}
-            </View>
-        </ScrollView>
+                        ))
+                    ) : selectedGroup ? (
+                        <>
+                            <TouchableOpacity
+                                style={styles.backButton}
+                                onPress={() => setSelectedGroup(null)}
+                            >
+                                <Ionicons name="arrow-back" size={24} color="#6200ee" />
+                                <Text style={styles.backButtonText}>Back to groups</Text>
+                            </TouchableOpacity>
+                            {groupedCategories[selectedGroup]?.map((category) => (
+                                <CategoryCard
+                                    key={category.id}
+                                    category={category}
+                                    onSelect={() => {
+                                        onChoose(category.id);
+                                        setCategoryName(category.category_name);
+                                    }}
+                                />
+                            ))}
+                        </>
+                    ) : (
+                        Object.entries(groupedCategories).map(([group, groupCategories]) => (
+                            <TouchableOpacity
+                                key={group}
+                                style={styles.groupCard}
+                                onPress={() => setSelectedGroup(group)}
+                            >
+                                <Text style={styles.groupTitle}>
+                                    {capitaliseWords(group)}
+                                </Text>
+                                <Text style={styles.groupCount}>
+                                    {groupCategories.length} categories
+                                </Text>
+                            </TouchableOpacity>
+                        ))
+                    )}
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 
@@ -162,8 +167,15 @@ function CategoryCard({ category, onSelect }: {
 }
 
 const styles = StyleSheet.create({
+    // container: {
+    //     flex: 1,
+    //     padding: 20,
+    // },
     container: {
         flex: 1,
+        backgroundColor: '#f5f5f5',
+    },
+    scrollContent: {
         padding: 20,
     },
     centerContainer: {
@@ -171,12 +183,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    contentSection: {
+        marginBottom: 30,
+    },
     title: {
         fontSize: 28,
+        textAlign: 'center',
         fontWeight: 'bold',
         color: '#6200ee',
-        textAlign: 'center',
-        marginBottom: 20,
+        marginBottom: 10,
     },
     searchContainer: {
         flexDirection: 'row',

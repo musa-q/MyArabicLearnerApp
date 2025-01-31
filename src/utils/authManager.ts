@@ -1,12 +1,11 @@
-// src/utils/authManager.ts
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { Platform, Dimensions } from 'react-native';
 import * as Device from 'expo-device';
 import { API_URL } from '../config/api';
 
-const REFRESH_INTERVAL = 55 * 60 * 1000; // 55 minutes
-const AUTH_VERSION = '1';
+// const REFRESH_INTERVAL = 55 * 60 * 1000; // 55 minutes
+const REFRESH_INTERVAL = 1 * 60 * 1000; // 55 minutes
 
 const createAuthManager = () => {
     let refreshTokenTimeout: NodeJS.Timeout | null = null;
@@ -40,7 +39,6 @@ const createAuthManager = () => {
                 [`refreshToken_${deviceId}`, refreshToken],
                 ['email', email],
                 [`tokenCreatedAt_${deviceId}`, Date.now().toString()],
-                ['auth_version', AUTH_VERSION]
             ]);
             setupRefreshTimer();
         } catch (error) {

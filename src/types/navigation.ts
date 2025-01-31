@@ -13,6 +13,18 @@ export type LearnStackParamList = {
     Flashcards: undefined;
 };
 
+export type PracticeStackParamList = {
+    PracticeScreen: undefined;
+    VocabQuiz: undefined;
+    VerbConjugationQuiz: undefined;
+};
+
+export type LoginStackParamList = {
+    Home: undefined;
+    LoginScreen: undefined;
+    About: undefined;
+};
+
 export type TabParamList = {
     Home: undefined;
     Flashcards: undefined;

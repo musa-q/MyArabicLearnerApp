@@ -2,7 +2,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from '../screens/HomeScreen';
 import FlashcardsScreen from '../screens/FlashcardsScreen';
-import QuizScreen from '../screens/QuizScreen';
+import PracticeScreen from '../screens/PracticeScreen';
+import VerbConjugationQuizScreen from '../screens/VerbConjugationQuizScreen';
+import VocabQuizScreen from '../screens/VocabQuizScreen';
 import UserProfile from '../screens/UserProfile';
 import QuizResultsScreen from '../screens/QuizResultsScreen';
 import Learn from '../screens/LearnScreen';
@@ -11,19 +13,47 @@ import { Ionicons } from '@expo/vector-icons';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+function PracticeStack() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name="PracticeScreen"
+                component={PracticeScreen}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="VocabQuiz"
+                component={VocabQuizScreen}
+                options={{
+                    headerShown: false,
+                    title: 'Verb Conjugation Quiz'
+                }}
+            />
+            <Stack.Screen
+                name="VerbConjugationQuiz"
+                component={VerbConjugationQuizScreen}
+                options={{
+                    headerShown: false,
+                    title: 'Verb Conjugation Quiz'
+                }}
+            />
+        </Stack.Navigator>
+    );
+}
+
 function LearnStack() {
     return (
         <Stack.Navigator>
             <Stack.Screen
                 name="Learn"
                 component={Learn}
-                options={{ headerShown: true }}
+                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name="Flashcards"
                 component={FlashcardsScreen}
                 options={{
-                    headerShown: true,
+                    headerShown: false,
                     title: 'Flashcards'
                 }}
             />
@@ -37,7 +67,11 @@ function UserProfileStack() {
             <Stack.Screen
                 name="Profile"
                 component={UserProfile}
-                options={{ headerShown: true }}
+                options={
+                    {
+                        headerShown: true,
+                    }
+                }
             />
             <Stack.Screen
                 name="QuizResults"
@@ -77,7 +111,7 @@ export default function MainTabs() {
                 },
                 tabBarActiveTintColor: '#6200ee',
                 tabBarInactiveTintColor: 'gray',
-                headerShown: true,
+                headerShown: false,
             })}
         >
             <Tab.Screen
@@ -97,7 +131,7 @@ export default function MainTabs() {
             />
             <Tab.Screen
                 name="Practice"
-                component={QuizScreen}
+                component={PracticeStack}
                 options={{
                     title: 'Practice'
                 }}

@@ -88,7 +88,7 @@ export default function UserProfile() {
             );
         }
 
-        return results.slice(0, 5).map((result, index) => (
+        return results.slice(0, 3).map((result, index) => (
             <View key={result.quiz_id} style={styles.resultCard}>
                 <View style={styles.resultHeader}>
                     <Text style={styles.categoryText}>{result.category}</Text>
@@ -112,7 +112,7 @@ export default function UserProfile() {
         <ScrollView style={styles.container}>
             <View style={styles.header}>
                 <Ionicons name="person-circle-outline" size={80} color="#6200ee" />
-                <Text style={styles.emailText}>{user?.email}</Text>
+                <Text style={styles.emailText}>{user?.username}</Text>
             </View>
 
             <View style={styles.section}>

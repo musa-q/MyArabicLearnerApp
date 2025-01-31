@@ -56,11 +56,6 @@ export default function FlashCardsSection({ wordsList, categoryName, onBack }: P
                 { useNativeDriver: false }
             ),
             onPanResponderRelease: (_, gesture) => {
-                console.log('flashcards length:', flashcardsRef.current.length);
-                console.log('left:', gesture.dx < -SWIPE_THRESHOLD);
-                console.log('right:', gesture.dx > SWIPE_THRESHOLD);
-                console.log('current:', currentIndexRef.current, 'length:', flashcardsRef.current.length);
-
                 if (gesture.dx < -SWIPE_THRESHOLD && currentIndexRef.current < flashcardsRef.current.length - 1) {
                     swipeLeft();
                 } else if (gesture.dx > SWIPE_THRESHOLD && currentIndexRef.current > 0) {

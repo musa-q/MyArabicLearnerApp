@@ -113,8 +113,6 @@ export default function LoginScreen() {
                 response.data.refresh_token,
                 state.email
             );
-
-            // Login successful - navigation is now handled by auth state
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 Alert.alert(

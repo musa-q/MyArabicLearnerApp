@@ -1,18 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { ChooseWordsSection } from '../components/ChooseWordsSection';
-import FlashCardsSection from '../components/flashcards/FlashCardsSection';
+import VocabQuestionSection from '../components/quiz/VocabQuestionSection';
+import { apiClient } from '../utils/apiClient';
 
-export default function FlashcardsScreen() {
+export default function VocabQuizScreen() {
     const [chosenWordsList, setChosenWordsList] = useState<string>("choose");
+    const [quizId, setQuizId] = useState<string | null>(null);
     const [categoryName, setCategoryName] = useState<string | null>(null);
 
-    const handleChooseWordsList = (listChoice: string) => {
-        setChosenWordsList(listChoice);
+    const handleChooseWordsList = async (listChoice: string) => {
+        try {
+            const response = await apiClient.post('/quiz/create-vocab-quiz', {
+                category_id: listChoice
+            });
+            setQuizId(response.quiz_id);
+            setChosenWordsList(listChoice);
+        } catch (error) {
+            console.error('Error creating quiz:', error);
+        }
     };
 
     const handleBack = () => {
         setChosenWordsList("choose");
+        setQuizId(null);
+        setCategoryName(null);
     };
 
     return (
@@ -23,8 +35,8 @@ export default function FlashcardsScreen() {
                     setCategoryName={setCategoryName}
                 />
             ) : (
-                <FlashCardsSection
-                    wordsList={chosenWordsList}
+                <VocabQuestionSection
+                    quizId={quizId!}
                     categoryName={categoryName}
                     onBack={handleBack}
                 />

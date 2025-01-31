@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ActivityIndicator } from 'react-native';
-import { User, AuthContextType } from '../types';
+import { User, AuthContextType } from '../types/auth';
 import { authManager } from '../utils/authManager';
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -14,8 +14,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const initAuth = async () => {
             try {
                 const email = await AsyncStorage.getItem('email');
+                const username = await AsyncStorage.getItem('username');
                 if (email && await authManager.initializeFromStorage()) {
-                    setUser({ email });
+                    setUser({ email, username: username || undefined });
                 }
             } catch (error) {
                 console.error('Auth initialization error:', error);
@@ -29,10 +30,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         authManager.setupAxiosInterceptors(() => {
             setUser(null);
         });
-
-        return () => {
-        };
     }, []);
+
+    const updateUser = async (data: Partial<User>) => {
+        try {
+            if (user) {
+                const updatedUser = { ...user, ...data };
+                if (data.username) {
+                    await AsyncStorage.setItem('username', data.username);
+                }
+                setUser(updatedUser);
+            }
+        } catch (error) {
+            console.error('Error updating user:', error);
+        }
+    };
 
     const login = async (token: string, refreshToken: string, email: string) => {
         await authManager.setTokens(token, refreshToken, email);
@@ -41,6 +53,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const logout = async () => {
         await authManager.clearTokens();
+        await AsyncStorage.removeItem('username');
         setUser(null);
     };
 
@@ -49,7 +62,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, isLoading }}>
+        <AuthContext.Provider value={{ user, login, logout, updateUser, isLoading }}>
             {children}
         </AuthContext.Provider>
     );

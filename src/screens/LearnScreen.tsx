@@ -28,7 +28,7 @@ export default function ScreenName() {
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollContent}>
                 <View style={styles.contentSection}>
-                    <Text style={styles.title}>Welcome!</Text>
+                    <Text style={styles.title}>Learn</Text>
                     <Text style={styles.description}>
                         This is a sample screen with scrollable content and interactive buttons.
                         Scroll down to see more content and try out the buttons below.
@@ -58,6 +58,14 @@ export default function ScreenName() {
                     >
                         <MaterialCommunityIcons name="table" size={24} color="white" />
                         <Text style={styles.buttonText}>Verb Conjugation Table</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => handleButtonPress('Cheatsheets')}
+                    >
+                        <MaterialCommunityIcons name="table" size={24} color="white" />
+                        <Text style={styles.buttonText}>Cheatsheets</Text>
                     </TouchableOpacity>
                 </View>
 
