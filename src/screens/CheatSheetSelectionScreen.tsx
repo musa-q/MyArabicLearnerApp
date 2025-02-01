@@ -12,75 +12,60 @@ import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { LearnStackParamList } from '../types/navigation';
+import { CheatSheetStackParamList } from '../types/navigation';
 
-type LearnScreenNavigationProp = NativeStackNavigationProp<LearnStackParamList>;
+type CheatSheetScreenNavigationProp = NativeStackNavigationProp<CheatSheetStackParamList>;
 
 export default function ScreenName() {
-    const navigation = useNavigation<LearnScreenNavigationProp>();
-
-    const handleButtonPress = (buttonType: string) => {
-        Alert.alert(`Button ${buttonType} pressed`);
-        // Add your button press logic here
-    };
+    const navigation = useNavigation<CheatSheetScreenNavigationProp>();
 
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={styles.scrollContent}>
                 <View style={styles.contentSection}>
                     <Text style={styles.title}>Learn</Text>
-                    <Text style={styles.description}>
-                        This is a sample screen with scrollable content and interactive buttons.
-                        Scroll down to see more content and try out the buttons below.
-                    </Text>
                 </View>
 
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => navigation.navigate('Flashcards')}
+                        onPress={() => navigation.navigate('VerbCheatSheet')}
                     >
                         <MaterialCommunityIcons name="card-text" size={24} color="white" />
-                        <Text style={styles.buttonText}>Flashcards</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={[styles.button, styles.buttonMiddle]}
-                        onPress={() => navigation.navigate('VocabTable')}
-                    >
-                        <Ionicons name="book-outline" size={24} color="white" />
-                        <Text style={styles.buttonText}>Vocab Table</Text>
+                        <Text style={styles.buttonText}>Verb Conjugation</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => navigation.navigate('VerbConjugationTable')}
+                        onPress={() => navigation.navigate('SentenceConstruction')}
                     >
-                        <MaterialCommunityIcons name="table" size={24} color="white" />
-                        <Text style={styles.buttonText}>Verb Conjugation Table</Text>
+                        <MaterialCommunityIcons name="card-text" size={24} color="white" />
+                        <Text style={styles.buttonText}>Sentence Construction</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => navigation.navigate('CheatSheetScreen')}
+                        onPress={() => navigation.navigate('PossessiveEndings')}
                     >
-                        <MaterialCommunityIcons name="table" size={24} color="white" />
-                        <Text style={styles.buttonText}>Cheatsheets</Text>
+                        <MaterialCommunityIcons name="card-text" size={24} color="white" />
+                        <Text style={styles.buttonText}>Possessive Endings</Text>
                     </TouchableOpacity>
-                </View>
 
-                {/* Additional scrollable content */}
-                <View style={styles.additionalContent}>
-                    <Text style={styles.subtitle}>Additional Content</Text>
-                    <Text style={styles.paragraph}>
-                        This is additional content that you can scroll through. Add more content
-                        here to demonstrate the scrolling functionality of the screen.
-                    </Text>
-                    <Text style={styles.paragraph}>
-                        You can keep adding more text, components, or any other content here.
-                        The ScrollView will make sure everything is accessible through scrolling.
-                    </Text>
-                    {/* Add more content as needed */}
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => navigation.navigate('Negation')}
+                    >
+                        <MaterialCommunityIcons name="card-text" size={24} color="white" />
+                        <Text style={styles.buttonText}>Negation</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => navigation.navigate('Pluralisation')}
+                    >
+                        <MaterialCommunityIcons name="card-text" size={24} color="white" />
+                        <Text style={styles.buttonText}>Pluralisation</Text>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
         </SafeAreaView>

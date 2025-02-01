@@ -11,6 +11,18 @@ export type ProfileStackParamList = {
 export type LearnStackParamList = {
     Learning: undefined;
     Flashcards: undefined;
+    VocabTable: undefined;
+    VerbConjugationTable: undefined;
+    CheatSheetScreen: undefined;
+};
+
+export type CheatSheetStackParamList = {
+    CheatSheetMainScreen: undefined;
+    VerbCheatSheet: undefined;
+    SentenceConstruction: undefined;
+    PossessiveEndings: undefined;
+    Negation: undefined;
+    Pluralisation: undefined;
 };
 
 export type PracticeStackParamList = {

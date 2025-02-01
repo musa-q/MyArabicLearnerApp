@@ -9,6 +9,14 @@ import UserProfile from '../screens/UserProfile';
 import QuizResultsScreen from '../screens/QuizResultsScreen';
 import Learn from '../screens/LearnScreen';
 import { Ionicons } from '@expo/vector-icons';
+import VocabTableScreen from '../screens/VocabTableScreen';
+import VerbConjugationTableScreen from '../screens/VerbConjugationTableScreen';
+import CheatSheetSelectionScreen from '../screens/CheatSheetSelectionScreen';
+import VerbCheatsheetScreen from '../components/cheatsheets/VerbCheatsheetScreen';
+import SentenceConstructionScreen from '../components/cheatsheets/SentenceConstructionScreen';
+import PossessiveEndingsScreen from '../components/cheatsheets/PossessiveEndingsScreen';
+import NegationScreen from '../components/cheatsheets/NegationScreen';
+import PluralisationScreen from '../components/cheatsheets/PluralisationScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -57,6 +65,30 @@ function LearnStack() {
                     title: 'Flashcards'
                 }}
             />
+            <Stack.Screen
+                name="VocabTable"
+                component={VocabTableScreen}
+                options={{
+                    headerShown: true,
+                    title: 'Flashcards'
+                }}
+            />
+            <Stack.Screen
+                name="VerbConjugationTable"
+                component={VerbConjugationTableScreen}
+                options={{
+                    headerShown: true,
+                    title: 'Flashcards'
+                }}
+            />
+            <Stack.Screen
+                name="CheatSheetScreen"
+                component={CheatSheetStack}
+                options={{
+                    headerShown: false,
+                    title: 'Cheat Sheets'
+                }}
+            />
         </Stack.Navigator>
     );
 }
@@ -79,6 +111,62 @@ function UserProfileStack() {
                 options={{
                     headerShown: true,
                     title: 'All Quiz Results'
+                }}
+            />
+        </Stack.Navigator>
+    );
+}
+
+function CheatSheetStack() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name="CheatSheetSelection"
+                component={CheatSheetSelectionScreen}
+                options={
+                    {
+                        headerShown: true,
+                    }
+                }
+            />
+            <Stack.Screen
+                name="VerbCheatSheet"
+                component={VerbCheatsheetScreen}
+                options={{
+                    headerShown: true,
+                    title: 'Verb Conjugation'
+                }}
+            />
+            <Stack.Screen
+                name="SentenceConstruction"
+                component={SentenceConstructionScreen}
+                options={{
+                    headerShown: true,
+                    title: 'Sentence Construction'
+                }}
+            />
+            <Stack.Screen
+                name="PossessiveEndings"
+                component={PossessiveEndingsScreen}
+                options={{
+                    headerShown: true,
+                    title: 'Possessive Endings'
+                }}
+            />
+            <Stack.Screen
+                name="Negation"
+                component={NegationScreen}
+                options={{
+                    headerShown: true,
+                    title: 'Negation'
+                }}
+            />
+            <Stack.Screen
+                name="Pluralisation"
+                component={PluralisationScreen}
+                options={{
+                    headerShown: true,
+                    title: 'Pluralisation'
                 }}
             />
         </Stack.Navigator>

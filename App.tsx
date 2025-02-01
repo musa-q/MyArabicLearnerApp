@@ -8,13 +8,11 @@ import LandingScreen from './src/screens/LandingScreen';
 import AboutScreen from './src/screens/AboutScreen';
 import MainTabs from './src/navigation/MainTabs';
 import { AuthProvider, useAuth } from './src/contexts/AuthContext';
-import { useEffect } from 'react';
-import { apiClient } from './src/utils/apiClient';
 
 const Stack = createNativeStackNavigator();
 
 function AppNavigator() {
-  const { user, isLoading, updateUser } = useAuth();
+  const { user, isLoading } = useAuth();
 
   if (isLoading) {
     return (
