@@ -1,18 +1,22 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from '../screens/HomeScreen';
-import FlashcardsScreen from '../screens/FlashcardsScreen';
-import PracticeScreen from '../screens/PracticeScreen';
-import VerbConjugationQuizScreen from '../screens/VerbConjugationQuizScreen';
-import VocabQuizScreen from '../screens/VocabQuizScreen';
-import UserProfile from '../screens/UserProfile';
-import QuizResultsScreen from '../screens/QuizResultsScreen';
-import Learn from '../screens/LearnScreen';
+import { Platform } from 'react-native';
+import { BlurView } from 'expo-blur';
 import { Ionicons } from '@expo/vector-icons';
-import VocabTableScreen from '../screens/VocabTableScreen';
-import VerbConjugationTableScreen from '../screens/VerbConjugationTableScreen';
-import CheatSheetSelectionScreen from '../screens/CheatSheetSelectionScreen';
-import VerbCheatsheetScreen from '../components/cheatsheets/VerbCheatsheetScreen';
+import { Colours, Typography } from '../styles/shared';
+
+import HomeScreen from '../screens/loggedin/HomeScreen';
+import FlashcardsScreen from '../screens/loggedin/learn/FlashcardsScreen';
+import PracticeScreen from '../screens/loggedin/practice/PracticeScreen';
+import VerbConjugationQuizScreen from '../screens/loggedin/practice/VerbConjugationQuizScreen';
+import VocabQuizScreen from '../screens/loggedin/practice/VocabQuizScreen';
+import UserProfile from '../screens/loggedin/UserProfile';
+import QuizResultsScreen from '../screens/loggedin/QuizResultsScreen';
+import Learn from '../screens/loggedin/learn/LearnScreen';
+import VocabTableScreen from '../screens/loggedin/learn/VocabTableScreen';
+import VerbConjugationTableScreen from '../screens/loggedin/learn/VerbConjugationTableScreen';
+import CheatSheetSelectionScreen from '../screens/loggedin/learn/CheatSheetSelectionScreen';
+import VerbCheatsheetScreen from '../components/cheatsheets/VerbCheatSheetScreen';
 import SentenceConstructionScreen from '../components/cheatsheets/SentenceConstructionScreen';
 import PossessiveEndingsScreen from '../components/cheatsheets/PossessiveEndingsScreen';
 import NegationScreen from '../components/cheatsheets/NegationScreen';
@@ -21,9 +25,22 @@ import PluralisationScreen from '../components/cheatsheets/PluralisationScreen';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+const sharedStackScreenOptions = {
+    headerStyle: {
+        backgroundColor: Colours.decorative.purple,
+    },
+    headerTintColor: Colours.text.inverse,
+    headerTitleStyle: {
+        ...Typography.headingMedium,
+        color: Colours.text.inverse,
+    },
+};
+
 function PracticeStack() {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={sharedStackScreenOptions}
+        >
             <Stack.Screen
                 name="PracticeScreen"
                 component={PracticeScreen}
@@ -32,18 +49,12 @@ function PracticeStack() {
             <Stack.Screen
                 name="VocabQuiz"
                 component={VocabQuizScreen}
-                options={{
-                    headerShown: false,
-                    title: 'Verb Conjugation Quiz'
-                }}
+                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name="VerbConjugationQuiz"
                 component={VerbConjugationQuizScreen}
-                options={{
-                    headerShown: false,
-                    title: 'Verb Conjugation Quiz'
-                }}
+                options={{ headerShown: false }}
             />
         </Stack.Navigator>
     );
@@ -51,7 +62,9 @@ function PracticeStack() {
 
 function LearnStack() {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={sharedStackScreenOptions}
+        >
             <Stack.Screen
                 name="Learn"
                 component={Learn}
@@ -60,34 +73,22 @@ function LearnStack() {
             <Stack.Screen
                 name="Flashcards"
                 component={FlashcardsScreen}
-                options={{
-                    headerShown: false,
-                    title: 'Flashcards'
-                }}
+                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name="VocabTable"
                 component={VocabTableScreen}
-                options={{
-                    headerShown: true,
-                    title: 'Flashcards'
-                }}
+                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name="VerbConjugationTable"
                 component={VerbConjugationTableScreen}
-                options={{
-                    headerShown: true,
-                    title: 'Flashcards'
-                }}
+                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name="CheatSheetScreen"
                 component={CheatSheetStack}
-                options={{
-                    headerShown: false,
-                    title: 'Cheat Sheets'
-                }}
+                options={{ headerShown: false }}
             />
         </Stack.Navigator>
     );
@@ -95,23 +96,18 @@ function LearnStack() {
 
 function UserProfileStack() {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={sharedStackScreenOptions}
+        >
             <Stack.Screen
                 name="Profile"
                 component={UserProfile}
-                options={
-                    {
-                        headerShown: true,
-                    }
-                }
+                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name="QuizResults"
                 component={QuizResultsScreen}
-                options={{
-                    headerShown: true,
-                    title: 'All Quiz Results'
-                }}
+                options={{ headerShown: false }}
             />
         </Stack.Navigator>
     );
@@ -119,55 +115,38 @@ function UserProfileStack() {
 
 function CheatSheetStack() {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={sharedStackScreenOptions}
+        >
             <Stack.Screen
                 name="CheatSheetSelection"
                 component={CheatSheetSelectionScreen}
-                options={
-                    {
-                        headerShown: true,
-                    }
-                }
+                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name="VerbCheatSheet"
                 component={VerbCheatsheetScreen}
-                options={{
-                    headerShown: true,
-                    title: 'Verb Conjugation'
-                }}
+                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name="SentenceConstruction"
                 component={SentenceConstructionScreen}
-                options={{
-                    headerShown: true,
-                    title: 'Sentence Construction'
-                }}
+                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name="PossessiveEndings"
                 component={PossessiveEndingsScreen}
-                options={{
-                    headerShown: true,
-                    title: 'Possessive Endings'
-                }}
+                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name="Negation"
                 component={NegationScreen}
-                options={{
-                    headerShown: true,
-                    title: 'Negation'
-                }}
+                options={{ headerShown: false }}
             />
             <Stack.Screen
                 name="Pluralisation"
                 component={PluralisationScreen}
-                options={{
-                    headerShown: true,
-                    title: 'Pluralisation'
-                }}
+                options={{ headerShown: false }}
             />
         </Stack.Navigator>
     );
@@ -195,41 +174,68 @@ export default function MainTabs() {
                         default:
                             iconName = 'help-outline';
                     }
-                    return <Ionicons name={iconName as any} size={24} color={color} />;
+                    return <Ionicons name={iconName as any} size={size} color={color} />;
                 },
-                tabBarActiveTintColor: '#6200ee',
-                tabBarInactiveTintColor: 'gray',
+                tabBarActiveTintColor: Colours.decorative.purple,
+                tabBarInactiveTintColor: Colours.text.secondary,
                 headerShown: false,
+                tabBarStyle: {
+                    backgroundColor: Colours.surface,
+                    paddingBottom: Platform.OS === 'ios' ? 15 : 10,
+                    ...Platform.select({
+                        ios: {
+                            shadowColor: '#000',
+                            shadowOffset: { width: 0, height: -3 },
+                            shadowOpacity: 0.1,
+                            shadowRadius: 3,
+                        },
+                        android: {
+                            elevation: 8,
+                        },
+                    }),
+                },
+                tabBarLabelStyle: {
+                    ...Typography.body,
+                    fontSize: 12,
+                },
+                tabBarItemStyle: {
+                    paddingVertical: 5,
+                },
+                tabBarBackground: () => (
+                    <BlurView
+                        intensity={80}
+                        tint="light"
+                        style={{ flex: 1 }}
+                    />
+                ),
             })}
         >
             <Tab.Screen
                 name="Home"
                 component={HomeScreen}
                 options={{
-                    title: 'Home'
+                    title: 'home'
                 }}
             />
             <Tab.Screen
                 name="Learning"
                 component={LearnStack}
                 options={{
-                    title: 'Learn',
-                    headerShown: false
+                    title: 'learn'
                 }}
             />
             <Tab.Screen
                 name="Practice"
                 component={PracticeStack}
                 options={{
-                    title: 'Practice'
+                    title: 'practice'
                 }}
             />
             <Tab.Screen
                 name="UserProfile"
                 component={UserProfileStack}
                 options={{
-                    title: 'Profile',
-                    headerShown: false
+                    title: 'profile'
                 }}
             />
         </Tab.Navigator>

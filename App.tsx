@@ -1,24 +1,66 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
+import * as Font from 'expo-font';
+import { Asset } from 'expo-asset';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ActivityIndicator, View } from 'react-native';
-import LoginScreen from './src/screens/LoginScreen';
-import LandingScreen from './src/screens/LandingScreen';
+import LoginScreen from './src/screens/loggedout/LoginScreen';
+import LandingScreen from './src/screens/loggedout/LandingScreen';
 import AboutScreen from './src/screens/AboutScreen';
 import MainTabs from './src/navigation/MainTabs';
 import { AuthProvider, useAuth } from './src/contexts/AuthContext';
+import { Colours } from './src/styles/shared';
+import LoadingComp from './src/components/customComponents/LoadingComp';
+import { Text, TextInput } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
-function AppNavigator() {
-  const { user, isLoading } = useAuth();
+const preloadAssets = async () => {
+  const imageAssets = [
+    require('./assets/background-geometric.png'),
+    require('./assets/logo-strip.png'),
+    require('./assets/arabesque.png'),
+  ];
 
-  if (isLoading) {
+  const imagePromises = imageAssets.map(image => {
+    return Asset.loadAsync(image);
+  });
+
+  const fontPromises = Font.loadAsync({
+    'ClashGrotesk-Light': require('./assets/fonts/ClashGrotesk-Light.ttf'),
+    'ClashGrotesk': require('./assets/fonts/ClashGrotesk-Medium.ttf'),
+    'ArefRuqaa': require('./assets/fonts/ArefRuqaa-Regular.ttf'),
+    'ArefRuqaa-Bold': require('./assets/fonts/ArefRuqaa-Bold.ttf'),
+    'NotoKufiArabic': require('./assets/fonts/NotoKufiArabic-Regular.ttf'),
+    'NotoKufiArabic-Bold': require('./assets/fonts/NotoKufiArabic-Bold.ttf'),
+  });
+
+  await Promise.all([...imagePromises, fontPromises]);
+};
+
+function AppNavigator() {
+  const { user, isLoading: authLoading } = useAuth();
+  const [assetsLoaded, setAssetsLoaded] = useState(false);
+
+  useEffect(() => {
+    async function loadAllAssets() {
+      try {
+        await preloadAssets();
+        setAssetsLoaded(true);
+      } catch (error) {
+        console.error('Error loading assets:', error);
+        setAssetsLoaded(true);
+      }
+    }
+
+    loadAllAssets();
+  }, []);
+
+  if (!assetsLoaded || authLoading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="#6200ee" />
-      </View>
+      <LoadingComp />
     );
   }
 
@@ -30,10 +72,8 @@ function AppNavigator() {
       }}
     >
       {user ? (
-        // Authenticated stack
         <Stack.Screen name="MainTabs" component={MainTabs} />
       ) : (
-        // Public stack
         <Stack.Group>
           <Stack.Screen
             name="Landing"
@@ -46,7 +86,9 @@ function AppNavigator() {
             options={{
               headerShown: true,
               title: '',
-              headerBackTitle: 'Back'
+              headerBackTitleVisible: false,
+              headerTransparent: true,
+              headerTintColor: Colours.decorative.purple,
             }}
           />
           <Stack.Screen
@@ -58,6 +100,7 @@ function AppNavigator() {
               headerBackTitle: 'Back',
               headerBackTitleVisible: true,
               headerTransparent: true,
+              headerTintColor: Colours.decorative.purple,
             }}
           />
         </Stack.Group>

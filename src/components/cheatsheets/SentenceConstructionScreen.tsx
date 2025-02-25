@@ -1,11 +1,13 @@
 import React from 'react';
 import {
     View,
-    Text,
     StyleSheet,
     ScrollView,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { ClashText } from '../customComponents/ClashTexts';
+import { Colours, Typography, ComponentStyles } from '../../styles/shared';
+import MainPageLayout from '../../components/customComponents/MainPageLayout';
 
 interface Pattern {
     pattern: string;
@@ -17,119 +19,119 @@ interface Pattern {
 export default function SentenceConstructionScreen() {
     const patterns: Pattern[] = [
         {
-            pattern: "Subject + Verb + Object",
+            pattern: "subject + verb + object",
             arabic: "أنا بشرب قهوة",
             transliteration: "ana bashrab qahwa",
-            english: "I drink coffee"
+            english: "i drink coffee"
         },
         {
-            pattern: "Subject + Verb + Location",
+            pattern: "subject + verb + location",
             arabic: "هو بروح عالسوق",
             transliteration: "huwe biruh 'al-souq",
-            english: "He goes to the market"
+            english: "he goes to the market"
         },
         {
-            pattern: "Verb + Object + Time",
+            pattern: "verb + object + time",
             arabic: "أكلت الغدا الساعة تنتين",
             transliteration: "akalt el-ghada el-sa'a tintayn",
-            english: "I ate lunch at 2 o'clock"
+            english: "i ate lunch at 2 o'clock"
         },
         {
-            pattern: "Subject + Adjective + Noun",
+            pattern: "subject + adjective + noun",
             arabic: "عندي سيارة حمرا",
             transliteration: "'indi sayara hamra",
-            english: "I have a red car"
+            english: "i have a red car"
         }
     ];
 
     const tips = [
-        "Unlike English, Arabic verbs usually come before the subject in formal speech",
-        "Adjectives come after the noun they describe",
-        "Time expressions usually come at the end of the sentence",
-        "In Levantine Arabic, we often start with the subject followed by the verb"
+        "unlike english, arabic verbs usually come before the subject in formal speech",
+        "adjectives come after the noun they describe",
+        "time expressions usually come at the end of the sentence",
+        "in levantine arabic, we often start with the subject followed by the verb"
     ];
 
     return (
-        <ScrollView style={styles.container}>
-            <Text style={styles.title}>Sentence Construction in Arabic</Text>
-            <Text style={styles.subtitle}>Learn how to build basic sentences in Levantine Arabic</Text>
+        <MainPageLayout>
+            <ScrollView style={styles.container}>
+                <ClashText style={styles.title}>sentence construction in arabic</ClashText>
+                <ClashText style={styles.subtitle}>learn how to build basic sentences in levantine arabic</ClashText>
 
-            {patterns.map((item, index) => (
-                <View key={index} style={styles.card}>
-                    <View style={styles.cardHeader}>
-                        <Ionicons name="construct-outline" size={20} color="#6200ee" />
-                        <Text style={styles.patternText}>{item.pattern}</Text>
-                    </View>
-                    <View style={styles.cardContent}>
-                        <View style={styles.exampleContainer}>
-                            <View style={styles.labelContainer}>
-                                <Text style={styles.label}>English:</Text>
-                                <Text style={styles.textContent}>{item.english}</Text>
-                            </View>
-                            <View style={styles.labelContainer}>
-                                <Text style={styles.label}>Arabic:</Text>
-                                <Text style={styles.arabicText}>{item.arabic}</Text>
-                            </View>
-                            <View style={styles.labelContainer}>
-                                <Text style={styles.label}>Transliteration:</Text>
-                                <Text style={styles.textContent}>{item.transliteration}</Text>
+                {patterns.map((item, index) => (
+                    <View key={index} style={styles.card}>
+                        <View style={styles.cardHeader}>
+                            <MaterialCommunityIcons name="format-paragraph" size={20} color={Colours.decorative.teal} />
+                            <ClashText style={styles.patternText}>{item.pattern}</ClashText>
+                        </View>
+                        <View style={styles.cardContent}>
+                            <View style={styles.exampleContainer}>
+                                <View style={styles.labelContainer}>
+                                    <ClashText style={styles.label}>english</ClashText>
+                                    <ClashText style={styles.textContent}>{item.english}</ClashText>
+                                </View>
+                                <View style={styles.labelContainer}>
+                                    <ClashText style={styles.label}>arabic</ClashText>
+                                    <ClashText style={styles.arabicText}>{item.arabic}</ClashText>
+                                </View>
+                                <View style={styles.labelContainer}>
+                                    <ClashText style={styles.label}>transliteration</ClashText>
+                                    <ClashText style={styles.textContent}>{item.transliteration}</ClashText>
+                                </View>
                             </View>
                         </View>
                     </View>
-                </View>
-            ))}
+                ))}
 
-            <View style={styles.guideCard}>
-                <View style={styles.guideHeader}>
-                    <Ionicons name="book-outline" size={20} color="#6200ee" />
-                    <Text style={styles.guideHeaderText}>Quick Guide</Text>
+                <View style={styles.guideCard}>
+                    <View style={styles.guideHeader}>
+                        <MaterialCommunityIcons name="book-open-variant" size={20} color={Colours.decorative.purple} />
+                        <ClashText style={styles.guideHeaderText}>quick guide</ClashText>
+                    </View>
+                    <View style={styles.guideContent}>
+                        <ClashText style={styles.guideText}>
+                            levantine arabic sentence structure is relatively flexible, but there are some common patterns
+                            that can help you construct basic sentences.
+                        </ClashText>
+                        {tips.map((tip, index) => (
+                            <View key={index} style={styles.tipContainer}>
+                                <MaterialCommunityIcons name="chevron-right" size={16} color={Colours.decorative.purple} />
+                                <ClashText style={styles.tipText}>{tip}</ClashText>
+                            </View>
+                        ))}
+                    </View>
                 </View>
-                <View style={styles.guideContent}>
-                    <Text style={styles.guideText}>
-                        Levantine Arabic sentence structure is relatively flexible, but there are some common patterns
-                        that can help you construct basic sentences.
-                    </Text>
-                    {tips.map((tip, index) => (
-                        <View key={index} style={styles.tipContainer}>
-                            <Ionicons name="chevron-forward" size={16} color="#6200ee" />
-                            <Text style={styles.tipText}>{tip}</Text>
-                        </View>
-                    ))}
-                </View>
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </MainPageLayout>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: 'transparent',
         padding: 20,
     },
     title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: '#6200ee',
+        ...Typography.headingMedium,
+        color: Colours.decorative.gold,
         textAlign: 'center',
         marginBottom: 8,
     },
     subtitle: {
-        fontSize: 16,
-        color: '#666',
+        ...Typography.body,
+        color: Colours.decorative.copper,
         textAlign: 'center',
         marginBottom: 20,
     },
     card: {
-        backgroundColor: 'white',
-        borderRadius: 12,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
+        backgroundColor: Colours.surface,
+        borderRadius: 16,
+        borderWidth: 1,
+        borderColor: Colours.secondary,
+        shadowColor: 'rgb(0, 0, 0)',
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
         elevation: 5,
         marginBottom: 16,
         overflow: 'hidden',
@@ -138,14 +140,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         padding: 16,
-        backgroundColor: '#f8f9fa',
+        backgroundColor: 'rgba(245, 240, 230, 0.5)',
         borderBottomWidth: 1,
-        borderBottomColor: '#e0e0e0',
+        borderBottomColor: Colours.secondary,
+        borderBottomOpacity: 0.2,
     },
     patternText: {
+        ...Typography.headingMedium,
         fontSize: 16,
-        fontWeight: '600',
-        color: '#333',
+        color: Colours.text.primary,
         marginLeft: 12,
     },
     cardContent: {
@@ -159,33 +162,35 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     label: {
+        ...Typography.body,
         fontSize: 14,
-        color: '#6200ee',
+        color: Colours.decorative.teal,
         width: 100,
         fontWeight: '600',
         paddingEnd: 20
     },
     textContent: {
+        ...Typography.body,
         flex: 1,
         fontSize: 14,
-        color: '#333',
+        color: Colours.text.primary,
     },
     arabicText: {
+        ...Typography.arabic,
         flex: 1,
         fontSize: 16,
-        color: '#333',
+        color: Colours.text.primary,
         textAlign: 'left',
     },
     guideCard: {
-        backgroundColor: 'white',
-        borderRadius: 12,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
+        backgroundColor: Colours.surface,
+        borderRadius: 16,
+        borderWidth: 1,
+        borderColor: Colours.secondary,
+        shadowColor: 'rgb(0, 0, 0)',
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
         elevation: 5,
         marginTop: 8,
         marginBottom: 20,
@@ -196,20 +201,22 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 16,
         borderBottomWidth: 1,
-        borderBottomColor: '#e0e0e0',
+        borderBottomColor: Colours.secondary,
+        borderBottomOpacity: 0.2,
     },
     guideHeaderText: {
+        ...Typography.headingMedium,
         marginLeft: 8,
         fontSize: 18,
-        fontWeight: '600',
-        color: '#333',
+        color: Colours.text.primary,
     },
     guideContent: {
         padding: 16,
     },
     guideText: {
+        ...Typography.body,
         fontSize: 14,
-        color: '#666',
+        color: Colours.text.secondary,
         marginBottom: 16,
         lineHeight: 20,
     },
@@ -220,9 +227,10 @@ const styles = StyleSheet.create({
         paddingLeft: 4,
     },
     tipText: {
+        ...Typography.body,
         flex: 1,
         fontSize: 14,
-        color: '#666',
+        color: Colours.text.secondary,
         marginLeft: 8,
         lineHeight: 20,
     },

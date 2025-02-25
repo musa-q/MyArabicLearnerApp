@@ -16,6 +16,11 @@ export type LearnStackParamList = {
     CheatSheetScreen: undefined;
 };
 
+export type HomeStackParamList = {
+    Flashcards: undefined;
+    VocabTable: undefined;
+};
+
 export type CheatSheetStackParamList = {
     CheatSheetMainScreen: undefined;
     VerbCheatSheet: undefined;

@@ -15,6 +15,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { useEffect, useRef } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { ClashText } from '../components/customComponents/ClashTexts';
 
 type AboutScreenNavigationProp = NativeStackNavigationProp<any>;
 
@@ -82,20 +83,20 @@ export default function AboutScreen() {
                         transform: [{ translateY }]
                     }
                 ]}>
-                    <Text style={styles.title}>About My Arabic Learner</Text>
-                    <Text style={styles.subtitle}>
+                    <ClashText style={styles.title}>About My Arabic Learner</ClashText>
+                    <ClashText style={styles.subtitle}>
                         Your journey to mastering Levantine Arabic starts here
-                    </Text>
+                    </ClashText>
                 </Animated.View>
 
                 {/* Description Section */}
                 <View style={styles.descriptionSection}>
-                    <Text style={styles.description}>
+                    <ClashText style={styles.description}>
                         Whether you're just starting out or want to level up your Arabic conversations,
                         we're here to make learning Levantine Arabic easy, fun, and practical. Our platform
                         combines modern learning techniques with traditional language education to create
                         an effective learning experience.
-                    </Text>
+                    </ClashText>
                 </View>
 
                 {/* Features Section */}
@@ -122,10 +123,10 @@ export default function AboutScreen() {
                                 />
                             )}
                             <View style={styles.featureContent}>
-                                <Text style={styles.featureTitle}>{feature.title}</Text>
-                                <Text style={styles.featureDescription}>
+                                <ClashText style={styles.featureTitle}>{feature.title}</ClashText>
+                                <ClashText style={styles.featureDescription}>
                                     {feature.description}
-                                </Text>
+                                </ClashText>
                             </View>
                         </TouchableOpacity>
                     ))}
@@ -133,10 +134,10 @@ export default function AboutScreen() {
 
                 {/* CTA Section */}
                 <View style={styles.ctaSection}>
-                    <Text style={styles.ctaTitle}>Ready to Begin?</Text>
-                    <Text style={styles.ctaDescription}>
+                    <ClashText style={styles.ctaTitle}>Ready to Begin?</ClashText>
+                    <ClashText style={styles.ctaDescription}>
                         Start your journey into the beautiful world of Levantine Arabic today!
-                    </Text>
+                    </ClashText>
                     <TouchableOpacity
                         style={styles.ctaButton}
                         onPress={() => {
@@ -147,7 +148,7 @@ export default function AboutScreen() {
                             }
                         }}
                     >
-                        <Text style={styles.ctaButtonText}>Get Started</Text>
+                        <ClashText style={styles.ctaButtonText}>Get Started</ClashText>
                         <Ionicons name="arrow-forward" size={20} color="white" style={styles.buttonIcon} />
                     </TouchableOpacity>
                 </View>

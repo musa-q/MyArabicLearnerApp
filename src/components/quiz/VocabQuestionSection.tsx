@@ -1,24 +1,24 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
     View,
-    Text,
     TouchableOpacity,
     StyleSheet,
-    TextInput,
     ScrollView,
     ActivityIndicator,
     Animated,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { apiClient } from '../../utils/apiClient';
 import { capitaliseWords } from '../../utils/textUtils';
+import { ClashText, ClashTextInput } from '../../components/customComponents/ClashTexts';
+import { Colours, Typography, ComponentStyles } from '../../styles/shared';
 
 const INITIAL_TIME = 15;
 const ERROR_MESSAGES = {
-    NO_ANSWER: "Please provide an answer!",
-    NETWORK_ERROR: "Network error occurred. Please try again.",
-    LOAD_ERROR: "Error loading question. Please try again.",
-    UNAUTHORIZED: "Your session has expired. Please login again.",
+    NO_ANSWER: "please provide an answer!",
+    NETWORK_ERROR: "network error occurred. please try again.",
+    LOAD_ERROR: "error loading question. please try again.",
+    UNAUTHORIZED: "your session has expired. please login again.",
 };
 
 interface Props {
@@ -84,7 +84,7 @@ export default function VocabQuestionSection({ quizId, categoryName, onBack }: P
 
             setUiState(prev => ({
                 ...prev,
-                resultMessage: "Time's up! ⏰",
+                resultMessage: "time's up! ⏰",
                 showNextButton: true,
                 showHintButton: false
             }));
@@ -121,7 +121,7 @@ export default function VocabQuestionSection({ quizId, categoryName, onBack }: P
                 }));
                 setUiState(prev => ({
                     ...prev,
-                    resultMessage: `Correct! 🎉 +${response.points} points`,
+                    resultMessage: `correct! 🎉 +${response.points} points`,
                     showNextButton: true,
                     showHintButton: false,
                 }));
@@ -133,7 +133,7 @@ export default function VocabQuestionSection({ quizId, categoryName, onBack }: P
                 }));
                 setUiState(prev => ({
                     ...prev,
-                    resultMessage: `Incorrect! ${response.points}`,
+                    resultMessage: `incorrect! ${response.points}`,
                     showNextButton: true,
                 }));
             }
@@ -222,7 +222,7 @@ export default function VocabQuestionSection({ quizId, categoryName, onBack }: P
     if (uiState.loading) {
         return (
             <View style={styles.centerContainer}>
-                <ActivityIndicator size="large" color="#6200ee" />
+                <ActivityIndicator size="large" color={Colours.decorative.purple} />
             </View>
         );
     }
@@ -230,11 +230,11 @@ export default function VocabQuestionSection({ quizId, categoryName, onBack }: P
     if (uiState.showResultsPage) {
         return (
             <View style={styles.centerContainer}>
-                <Text style={styles.resultTitle}>Quiz Complete! 🎉</Text>
-                <Text style={styles.resultScore}>Final Score: {quizState.points}</Text>
+                <ClashText style={styles.resultTitle}>quiz complete! 🎉</ClashText>
+                <ClashText style={styles.resultScore}>final score: {quizState.points}</ClashText>
                 <TouchableOpacity style={styles.backButton} onPress={onBack}>
-                    <Ionicons name="arrow-back" size={24} color="#6200ee" />
-                    <Text style={styles.backButtonText}>Back to Categories</Text>
+                    <MaterialCommunityIcons name="arrow-left" size={24} color={Colours.decorative.purple} />
+                    <ClashText style={styles.backButtonText}>back to categories</ClashText>
                 </TouchableOpacity>
             </View>
         );
@@ -244,15 +244,15 @@ export default function VocabQuestionSection({ quizId, categoryName, onBack }: P
         <ScrollView style={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity style={styles.backButton} onPress={onBack}>
-                    <Ionicons name="arrow-back" size={24} color="#6200ee" />
+                    <MaterialCommunityIcons name="arrow-left" size={24} color={Colours.decorative.purple} />
                 </TouchableOpacity>
-                <Text style={styles.title}>
-                    {categoryName ? capitaliseWords(categoryName) : 'Vocabulary Quiz'}
-                </Text>
+                <ClashText style={styles.title}>
+                    {categoryName ? capitaliseWords(categoryName) : 'vocabulary quiz'}
+                </ClashText>
             </View>
 
             <View style={styles.scoreContainer}>
-                <Text style={styles.scoreText}>Points: {quizState.points}</Text>
+                <ClashText style={styles.scoreText}>points: {quizState.points}</ClashText>
                 <View style={styles.timerContainer}>
                     <View style={[
                         styles.timerBar,
@@ -260,26 +260,26 @@ export default function VocabQuestionSection({ quizId, categoryName, onBack }: P
                         quizState.timeRemaining <= 5 && styles.timerWarning
                     ]} />
                 </View>
-                <Text style={styles.scoreText}>Streak: {quizState.streak}</Text>
+                <ClashText style={styles.scoreText}>streak: {quizState.streak}</ClashText>
             </View>
 
             <Animated.View style={[styles.card, { opacity: fadeAnim }]}>
                 <View style={styles.cardHeader}>
-                    <Ionicons name="book-outline" size={24} color="#6200ee" />
-                    <Text style={styles.cardHeaderText}>Current Question</Text>
+                    <MaterialCommunityIcons name="book-open-variant" size={24} color={Colours.decorative.purple} />
+                    <ClashText style={styles.cardHeaderText}>current question</ClashText>
                 </View>
 
                 <View style={styles.cardContent}>
-                    <Text style={styles.questionText}>
+                    <ClashText style={styles.questionText}>
                         {capitaliseWords(quizState.currentQuestion ?? '')}
-                    </Text>
+                    </ClashText>
 
-                    <TextInput
+                    <ClashTextInput
                         style={styles.input}
                         value={quizState.currentAnswer}
                         onChangeText={(text) => setQuizState(prev => ({ ...prev, currentAnswer: text }))}
-                        placeholder="Type your answer here..."
-                        placeholderTextColor="#666"
+                        placeholder="type your answer here..."
+                        placeholderTextColor={Colours.text.secondary}
                     />
 
                     <View style={styles.buttonContainer}>
@@ -289,8 +289,8 @@ export default function VocabQuestionSection({ quizId, categoryName, onBack }: P
                                 onPress={getNextQuestion}
                                 disabled={uiState.isSubmitting}
                             >
-                                <Text style={styles.buttonText}>Next Question</Text>
-                                <Ionicons name="arrow-forward" size={20} color="white" />
+                                <ClashText style={styles.buttonText}>next question</ClashText>
+                                <MaterialCommunityIcons name="arrow-right" size={20} color={Colours.text.inverse} />
                             </TouchableOpacity>
                         ) : (
                             <TouchableOpacity
@@ -298,8 +298,8 @@ export default function VocabQuestionSection({ quizId, categoryName, onBack }: P
                                 onPress={checkAnswer}
                                 disabled={uiState.isSubmitting}
                             >
-                                <Text style={styles.buttonText}>Check Answer</Text>
-                                <Ionicons name="checkmark-circle" size={20} color="white" />
+                                <ClashText style={styles.buttonText}>check answer</ClashText>
+                                <MaterialCommunityIcons name="check-circle" size={20} color={Colours.text.inverse} />
                             </TouchableOpacity>
                         )}
 
@@ -308,10 +308,10 @@ export default function VocabQuestionSection({ quizId, categoryName, onBack }: P
                                 style={styles.secondaryButton}
                                 onPress={() => setUiState(prev => ({ ...prev, revealAnswer: !prev.revealAnswer }))}
                             >
-                                <Ionicons name="help-circle" size={20} color="#6200ee" />
-                                <Text style={styles.secondaryButtonText}>
-                                    {uiState.revealAnswer ? 'Hide Answer' : 'Show Answer'}
-                                </Text>
+                                <MaterialCommunityIcons name="help-circle" size={20} color={Colours.decorative.purple} />
+                                <ClashText style={styles.secondaryButtonText}>
+                                    {uiState.revealAnswer ? 'hide answer' : 'show answer'}
+                                </ClashText>
                             </TouchableOpacity>
                         )}
                     </View>
@@ -320,28 +320,28 @@ export default function VocabQuestionSection({ quizId, categoryName, onBack }: P
                         <View style={[
                             styles.resultContainer,
                             {
-                                backgroundColor: uiState.resultMessage.includes("Correct")
-                                    ? "rgba(34, 197, 94, 0.2)"
-                                    : "rgba(239, 68, 68, 0.2)"
+                                backgroundColor: uiState.resultMessage.includes("correct")
+                                    ? "rgba(69, 166, 163, 0.2)"
+                                    : "rgba(184, 115, 51, 0.2)"
                             }
                         ]}>
-                            <Text style={[
+                            <ClashText style={[
                                 styles.resultText,
                                 {
-                                    color: uiState.resultMessage.includes("Correct")
-                                        ? "#22c55e"
-                                        : "#ef4444"
+                                    color: uiState.resultMessage.includes("correct")
+                                        ? Colours.decorative.teal
+                                        : Colours.decorative.copper
                                 }
                             ]}>
                                 {uiState.resultMessage}
-                            </Text>
+                            </ClashText>
                         </View>
                     )}
 
                     {uiState.revealAnswer && (
                         <View style={styles.hintContainer}>
-                            <Text style={styles.hintLabel}>Answer: </Text>
-                            <Text style={styles.hintText}>{quizState.hint}</Text>
+                            <ClashText style={styles.hintLabel}>answer: </ClashText>
+                            <ClashText style={styles.hintText}>{quizState.hint}</ClashText>
                         </View>
                     )}
                 </View>
@@ -354,13 +354,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor: '#fff',
     },
     centerContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#fff',
         padding: 20,
     },
     header: {
@@ -375,21 +373,15 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     backButtonText: {
+        ...Typography.body,
         marginLeft: 10,
         fontSize: 16,
-        color: '#6200ee',
+        color: Colours.decorative.purple,
     },
     title: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: '#333',
+        ...Typography.headingMedium,
+        color: Colours.decorative.gold,
         flex: 1,
-    },
-    subtitle: {
-        fontSize: 16,
-        color: '#666',
-        textAlign: 'center',
-        marginBottom: 20,
     },
     scoreContainer: {
         flexDirection: 'row',
@@ -398,36 +390,38 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     scoreText: {
+        ...Typography.body,
         fontSize: 16,
-        color: '#333',
+        color: Colours.text.primary,
         fontWeight: '600',
     },
     timerContainer: {
         flex: 1,
         height: 8,
-        backgroundColor: '#e0e0e0',
+        backgroundColor: Colours.secondary,
         borderRadius: 4,
         marginHorizontal: 12,
         overflow: 'hidden',
+        opacity: 0.3,
     },
     timerBar: {
         height: '100%',
-        backgroundColor: '#6200ee',
+        backgroundColor: Colours.decorative.purple,
         borderRadius: 4,
+        opacity: 1,
     },
     timerWarning: {
-        backgroundColor: '#ef4444',
+        backgroundColor: Colours.decorative.copper,
     },
     card: {
-        backgroundColor: 'white',
-        borderRadius: 12,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
+        backgroundColor: Colours.surface,
+        borderRadius: 16,
+        borderWidth: 1,
+        borderColor: Colours.secondary,
+        shadowColor: 'rgb(0, 0, 0)',
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
         elevation: 5,
         marginBottom: 20,
     },
@@ -436,12 +430,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 16,
         borderBottomWidth: 1,
-        borderBottomColor: '#e0e0e0',
+        borderBottomColor: Colours.secondary,
+        borderBottomOpacity: 0.2,
+        backgroundColor: 'rgba(245, 240, 230, 0.5)',
     },
     cardHeaderText: {
+        ...Typography.headingMedium,
         fontSize: 18,
-        fontWeight: '600',
-        color: '#333',
+        color: Colours.text.primary,
         marginLeft: 12,
     },
     cardContent: {
@@ -449,20 +445,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     questionText: {
+        ...Typography.headingMedium,
         fontSize: 24,
-        fontWeight: '600',
-        color: '#333',
+        color: Colours.text.primary,
         textAlign: 'center',
         marginBottom: 20,
     },
     input: {
+        ...ComponentStyles.input,
         width: '100%',
         height: 50,
-        backgroundColor: '#f5f5f5',
-        borderRadius: 8,
-        paddingHorizontal: 16,
-        fontSize: 16,
-        color: '#333',
         marginBottom: 20,
         textAlign: 'center',
     },
@@ -474,19 +466,24 @@ const styles = StyleSheet.create({
     },
     primaryButton: {
         flex: 1,
-        backgroundColor: '#6200ee',
-        borderRadius: 8,
+        backgroundColor: Colours.decorative.purple,
+        borderRadius: 30,
         paddingVertical: 12,
         paddingHorizontal: 16,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         gap: 8,
+        shadowColor: 'rgb(0, 0, 0)',
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        elevation: 4,
     },
     secondaryButton: {
         flex: 1,
         backgroundColor: 'transparent',
-        borderRadius: 8,
+        borderRadius: 30,
         paddingVertical: 12,
         paddingHorizontal: 16,
         flexDirection: 'row',
@@ -494,15 +491,17 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         gap: 8,
         borderWidth: 1,
-        borderColor: '#6200ee',
+        borderColor: Colours.decorative.purple,
     },
     buttonText: {
-        color: 'white',
+        ...Typography.body,
+        color: Colours.text.inverse,
         fontSize: 16,
         fontWeight: '600',
     },
     secondaryButtonText: {
-        color: '#6200ee',
+        ...Typography.body,
+        color: Colours.decorative.purple,
         fontSize: 16,
         fontWeight: '600',
     },
@@ -514,6 +513,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     resultText: {
+        ...Typography.body,
         fontSize: 16,
         fontWeight: '600',
         textAlign: 'center',
@@ -522,30 +522,36 @@ const styles = StyleSheet.create({
         width: '100%',
         marginTop: 20,
         padding: 12,
-        backgroundColor: '#f5f5f5',
+        backgroundColor: 'rgba(245, 240, 230, 0.7)',
         borderRadius: 8,
         alignItems: 'center',
+        borderWidth: 1,
+        borderColor: Colours.secondary,
+        borderOpacity: 0.3,
     },
     hintLabel: {
+        ...Typography.body,
         fontSize: 16,
-        color: '#666',
+        color: Colours.text.secondary,
         marginBottom: 4,
     },
     hintText: {
+        ...Typography.arabic,
         fontSize: 20,
-        color: '#333',
+        color: Colours.decorative.purple,
         fontWeight: '600',
         textAlign: 'center',
     },
     resultTitle: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: '#333',
+        ...Typography.headingMedium,
+        color: Colours.decorative.gold,
+        fontSize: 28,
         marginBottom: 12,
     },
     resultScore: {
+        ...Typography.body,
+        color: Colours.decorative.purple,
         fontSize: 20,
-        color: '#6200ee',
         marginBottom: 24,
     },
 });

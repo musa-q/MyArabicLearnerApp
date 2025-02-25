@@ -1,11 +1,13 @@
 import React from 'react';
 import {
     View,
-    Text,
     StyleSheet,
     ScrollView,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { ClashText } from '../customComponents/ClashTexts';
+import { Colours, Typography, ComponentStyles } from '../../styles/shared';
+import MainPageLayout from '../../components/customComponents/MainPageLayout';
 
 interface PluralExample {
     pattern: string;
@@ -16,118 +18,118 @@ interface PluralExample {
 
 export default function PluralisationScreen() {
     const pluralExamples: PluralExample[] = [
-        { pattern: "Sound Masculine", arabic: "معلّم -> معلّمون", transliteration: "muʿallim -> muʿallimūn", english: "Teacher -> Teachers (m)" },
-        { pattern: "Sound Feminine", arabic: "معلّمة -> معلّمات", transliteration: "muʿallima -> muʿallimāt", english: "Teacher -> Teachers (f)" },
-        { pattern: "Broken Plural 1", arabic: "كتاب -> كتب", transliteration: "kitāb -> kutub", english: "Book -> Books" },
-        { pattern: "Broken Plural 2", arabic: "مدينة -> مدن", transliteration: "madīna -> mudun", english: "City -> Cities" },
+        { pattern: "sound masculine", arabic: "معلّم -> معلّمون", transliteration: "muʿallim -> muʿallimūn", english: "teacher -> teachers (m)" },
+        { pattern: "sound feminine", arabic: "معلّمة -> معلّمات", transliteration: "muʿallima -> muʿallimāt", english: "teacher -> teachers (f)" },
+        { pattern: "broken plural 1", arabic: "كتاب -> كتب", transliteration: "kitāb -> kutub", english: "book -> books" },
+        { pattern: "broken plural 2", arabic: "مدينة -> مدن", transliteration: "madīna -> mudun", english: "city -> cities" },
     ];
 
     const tips = [
-        "Sound plurals add endings based on gender: '-ūn' (masculine) or '-āt' (feminine).",
-        "Broken plurals involve changing the structure of the singular word.",
-        "Master common broken plural patterns to improve fluency.",
-        "Pay attention to context, as some words might use irregular plurals."
+        "sound plurals add endings based on gender: '-ūn' (masculine) or '-āt' (feminine).",
+        "broken plurals involve changing the structure of the singular word.",
+        "master common broken plural patterns to improve fluency.",
+        "pay attention to context, as some words might use irregular plurals."
     ];
 
     return (
-        <ScrollView style={styles.container}>
-            <Text style={styles.title}>Pluralisation in Arabic</Text>
-            <Text style={styles.subtitle}>Learn how to form plurals in Levantine Arabic</Text>
+        <MainPageLayout>
+            <ScrollView style={styles.container}>
+                <ClashText style={styles.title}>pluralisation in arabic</ClashText>
+                <ClashText style={styles.subtitle}>learn how to form plurals in levantine arabic</ClashText>
 
-            <View style={styles.tableCard}>
-                <View style={styles.tableHeader}>
-                    <View style={styles.headerCell}>
-                        <Text style={styles.headerText}>Pattern</Text>
-                    </View>
-                    <View style={styles.headerCell}>
-                        <Text style={styles.headerText}>Arabic</Text>
-                    </View>
-                    <View style={styles.headerCell}>
-                        <Text style={styles.headerText}>English</Text>
-                    </View>
-                </View>
-
-                {pluralExamples.map((example, index) => (
-                    <View
-                        key={index}
-                        style={[
-                            styles.tableRow,
-                            index % 2 === 0 ? styles.evenRow : styles.oddRow
-                        ]}
-                    >
-                        <View style={styles.cell}>
-                            <Text style={styles.patternText}>{example.pattern}</Text>
+                <View style={styles.tableCard}>
+                    <View style={styles.tableHeader}>
+                        <View style={styles.headerCell}>
+                            <ClashText style={styles.headerText}>pattern</ClashText>
                         </View>
-                        <View style={styles.cell}>
-                            <Text style={styles.arabicText}>{example.arabic}</Text>
-                            <Text style={styles.translitText}>{example.transliteration}</Text>
+                        <View style={styles.headerCell}>
+                            <ClashText style={styles.headerText}>arabic</ClashText>
                         </View>
-                        <View style={styles.cell}>
-                            <Text style={styles.englishText}>{example.english}</Text>
+                        <View style={styles.headerCell}>
+                            <ClashText style={styles.headerText}>english</ClashText>
                         </View>
                     </View>
-                ))}
-            </View>
 
-            <View style={styles.guideCard}>
-                <View style={styles.guideHeader}>
-                    <Ionicons name="layers-outline" size={20} color="#6200ee" />
-                    <Text style={styles.guideHeaderText}>Quick Guide</Text>
-                </View>
-                <View style={styles.guideContent}>
-                    {tips.map((tip, index) => (
-                        <View key={index} style={styles.tipContainer}>
-                            <Ionicons name="chevron-forward" size={16} color="#6200ee" />
-                            <Text style={styles.tipText}>{tip}</Text>
+                    {pluralExamples.map((example, index) => (
+                        <View
+                            key={index}
+                            style={[
+                                styles.tableRow,
+                                index % 2 === 0 ? styles.evenRow : styles.oddRow
+                            ]}
+                        >
+                            <View style={styles.cell}>
+                                <ClashText style={styles.patternText}>{example.pattern}</ClashText>
+                            </View>
+                            <View style={styles.cell}>
+                                <ClashText style={styles.arabicText}>{example.arabic}</ClashText>
+                                <ClashText style={styles.translitText}>{example.transliteration}</ClashText>
+                            </View>
+                            <View style={styles.cell}>
+                                <ClashText style={styles.englishText}>{example.english}</ClashText>
+                            </View>
                         </View>
                     ))}
-                    <Text style={styles.guideText}>
-                        Pluralisation in Arabic is a mix of patterns and structures. While sound plurals
-                        follow predictable rules, broken plurals require memorization of specific forms.
-                        Practice with real-world examples to master this important skill!
-                    </Text>
                 </View>
-            </View>
-        </ScrollView>
+
+                <View style={styles.guideCard}>
+                    <View style={styles.guideHeader}>
+                        <MaterialCommunityIcons name="layers-outline" size={20} color={Colours.decorative.purple} />
+                        <ClashText style={styles.guideHeaderText}>quick guide</ClashText>
+                    </View>
+                    <View style={styles.guideContent}>
+                        {tips.map((tip, index) => (
+                            <View key={index} style={styles.tipContainer}>
+                                <MaterialCommunityIcons name="chevron-right" size={16} color={Colours.decorative.purple} />
+                                <ClashText style={styles.tipText}>{tip}</ClashText>
+                            </View>
+                        ))}
+                        <ClashText style={styles.guideText}>
+                            pluralisation in arabic is a mix of patterns and structures. while sound plurals
+                            follow predictable rules, broken plurals require memorization of specific forms.
+                            practice with real-world examples to master this important skill!
+                        </ClashText>
+                    </View>
+                </View>
+            </ScrollView>
+        </MainPageLayout>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: 'transparent',
         padding: 20,
     },
     title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: '#6200ee',
+        ...Typography.headingMedium,
+        color: Colours.decorative.gold,
         textAlign: 'center',
         marginBottom: 8,
     },
     subtitle: {
-        fontSize: 16,
-        color: '#666',
+        ...Typography.body,
+        color: Colours.decorative.copper,
         textAlign: 'center',
         marginBottom: 20,
     },
     tableCard: {
-        backgroundColor: 'white',
-        borderRadius: 12,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
+        backgroundColor: Colours.surface,
+        borderRadius: 16,
+        borderWidth: 1,
+        borderColor: Colours.secondary,
+        shadowColor: 'rgb(0, 0, 0)',
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
         elevation: 5,
         marginBottom: 20,
         overflow: 'hidden',
     },
     tableHeader: {
         flexDirection: 'row',
-        backgroundColor: '#333',
+        backgroundColor: Colours.decorative.teal,
         paddingVertical: 12,
         paddingHorizontal: 8,
     },
@@ -136,7 +138,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     headerText: {
-        color: 'white',
+        color: Colours.text.inverse,
         fontSize: 14,
         fontWeight: '600',
     },
@@ -145,13 +147,14 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         paddingHorizontal: 8,
         borderBottomWidth: 1,
-        borderBottomColor: '#e0e0e0',
+        borderBottomColor: Colours.secondary,
+        borderBottomOpacity: 0.2,
     },
     evenRow: {
-        backgroundColor: '#f8f9fa',
+        backgroundColor: 'rgba(245, 240, 230, 0.5)', // Slightly tinted background
     },
     oddRow: {
-        backgroundColor: '#fff',
+        backgroundColor: Colours.surface,
     },
     cell: {
         flex: 1,
@@ -160,36 +163,39 @@ const styles = StyleSheet.create({
         paddingHorizontal: 4,
     },
     patternText: {
+        ...Typography.body,
         fontSize: 14,
-        color: '#333',
+        color: Colours.text.primary,
         textAlign: 'center',
     },
     arabicText: {
+        ...Typography.arabic,
         fontSize: 16,
-        color: '#333',
+        color: Colours.text.primary,
         textAlign: 'center',
         marginBottom: 4,
     },
     translitText: {
+        ...Typography.body,
         fontSize: 12,
-        color: '#666',
+        color: Colours.decorative.copper,
         textAlign: 'center',
     },
     englishText: {
+        ...Typography.body,
         fontSize: 14,
-        color: '#333',
+        color: Colours.text.primary,
         textAlign: 'center',
     },
     guideCard: {
-        backgroundColor: 'white',
-        borderRadius: 12,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
+        backgroundColor: Colours.surface,
+        borderRadius: 16,
+        borderWidth: 1,
+        borderColor: Colours.secondary,
+        shadowColor: 'rgb(0, 0, 0)',
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
         elevation: 5,
         marginBottom: 20,
         overflow: 'hidden',
@@ -199,13 +205,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 16,
         borderBottomWidth: 1,
-        borderBottomColor: '#e0e0e0',
+        borderBottomColor: Colours.secondary,
+        borderBottomOpacity: 0.2,
     },
     guideHeaderText: {
+        ...Typography.headingMedium,
         marginLeft: 8,
         fontSize: 18,
-        fontWeight: '600',
-        color: '#333',
+        color: Colours.text.primary,
     },
     guideContent: {
         padding: 16,
@@ -217,38 +224,19 @@ const styles = StyleSheet.create({
         paddingLeft: 4,
     },
     tipText: {
+        ...Typography.body,
         flex: 1,
         fontSize: 14,
-        color: '#666',
+        color: Colours.text.secondary,
         marginLeft: 8,
         lineHeight: 20,
     },
     guideText: {
+        ...Typography.body,
         fontSize: 14,
-        color: '#666',
+        color: Colours.text.secondary,
         marginTop: 8,
         lineHeight: 20,
         paddingHorizontal: 4,
-    },
-    loadingContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    loadingText: {
-        marginTop: 12,
-        fontSize: 16,
-        color: '#666',
-    },
-    errorContainer: {
-        padding: 20,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    errorText: {
-        fontSize: 16,
-        color: '#ef4444',
-        textAlign: 'center',
-        marginTop: 8,
     },
 });

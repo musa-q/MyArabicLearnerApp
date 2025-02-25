@@ -4,8 +4,8 @@ import { Platform, Dimensions } from 'react-native';
 import * as Device from 'expo-device';
 import { API_URL } from '../config/api';
 
-// const REFRESH_INTERVAL = 55 * 60 * 1000; // 55 minutes
-const REFRESH_INTERVAL = 1 * 60 * 1000; // 55 minutes
+// const REFRESH_INTERVAL = 55 * 60 * 1000;
+const REFRESH_INTERVAL = 1 * 60 * 1000;
 
 const createAuthManager = () => {
     let refreshTokenTimeout: NodeJS.Timeout | null = null;

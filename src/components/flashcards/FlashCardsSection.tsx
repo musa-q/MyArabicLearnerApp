@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
     View,
-    Text,
     TouchableOpacity,
     StyleSheet,
     Dimensions,
@@ -9,9 +8,12 @@ import {
     ActivityIndicator,
     PanResponder,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { apiClient } from '../../utils/apiClient';
 import { capitaliseWords } from '../../utils/textUtils';
+import { ClashText } from '../customComponents/ClashTexts';
+import { Colours, Typography, ComponentStyles } from '../../styles/shared';
+import MainPageLayout from '../customComponents/MainPageLayout';
 
 interface FlashCard {
     arabic: string;
@@ -35,6 +37,7 @@ interface Props {
 
 const SWIPE_THRESHOLD = 100;
 const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export default function FlashCardsSection({ wordsList, categoryName, onBack }: Props) {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -156,7 +159,7 @@ export default function FlashCardsSection({ wordsList, categoryName, onBack }: P
     if (isLoading) {
         return (
             <View style={styles.centerContainer}>
-                <ActivityIndicator size="large" color="#6200ee" />
+                <ActivityIndicator size="large" color={Colours.decorative.purple} />
             </View>
         );
     }
@@ -164,7 +167,7 @@ export default function FlashCardsSection({ wordsList, categoryName, onBack }: P
     if (!flashcardsRef.current.length) {
         return (
             <View style={styles.centerContainer}>
-                <Text>No flashcards available</Text>
+                <ClashText style={Typography.body}>No flashcards available</ClashText>
             </View>
         );
     }
@@ -178,21 +181,19 @@ export default function FlashCardsSection({ wordsList, categoryName, onBack }: P
         <View style={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={onBack} style={styles.backButton}>
-                    <Ionicons name="arrow-back" size={24} color="#6200ee" />
+                    <MaterialCommunityIcons name="arrow-left" size={24} color={Colours.decorative.purple} />
                 </TouchableOpacity>
-                <Text style={styles.title}>
-                    {categoryName ? capitaliseWords(categoryName) : 'Flashcards'}
-                </Text>
-            </View>
+                <ClashText style={styles.title}>
+                    {categoryName ? categoryName.toLowerCase() : 'flashcards'}
+                </ClashText>
 
-            <View style={styles.controls}>
                 <TouchableOpacity
                     style={[styles.controlButton, showTranslit && styles.activeButton]}
                     onPress={() => setShowTranslit(!showTranslit)}
                 >
-                    <Text style={[styles.controlText, showTranslit && styles.activeText]}>
-                        Transliteration
-                    </Text>
+                    <ClashText style={[styles.controlText, ...(showTranslit ? [styles.activeText] : [])]}>
+                        transliteration
+                    </ClashText>
                 </TouchableOpacity>
             </View>
 
@@ -206,26 +207,27 @@ export default function FlashCardsSection({ wordsList, categoryName, onBack }: P
                         onPress={() => setIsArabic(!isArabic)}
                         activeOpacity={0.9}
                     >
-                        <Text style={styles.mainText}>
+                        <ClashText style={[styles.mainText, ...(isArabic ? [styles.arabicText] : [])]}>
                             {isArabic ? currentCard.arabic : currentCard.english}
-                        </Text>
+                        </ClashText>
                         {showTranslit && isArabic && (
-                            <Text style={styles.translitText}>
+                            <ClashText style={styles.translitText}>
                                 {currentCard.transliteration}
-                            </Text>
+                            </ClashText>
                         )}
-                        <Text style={styles.tapText}>Tap to flip</Text>
+                        <ClashText style={styles.tapText}>tap to flip</ClashText>
                     </TouchableOpacity>
                 </Animated.View>
+
+                <View style={styles.footerInfo}>
+                    <ClashText style={styles.cardCount}>
+                        {currentIndex + 1} / {flashcardsRef.current.length}
+                    </ClashText>
+                    <ClashText style={styles.instructions}>
+                        swipe left/right to navigate
+                    </ClashText>
+                </View>
             </View>
-
-            <Text style={styles.cardCount}>
-                {currentIndex + 1} / {flashcardsRef.current.length}
-            </Text>
-
-            <Text style={styles.instructions}>
-                Swipe left or right to navigate through cards
-            </Text>
         </View>
     );
 }
@@ -233,8 +235,8 @@ export default function FlashCardsSection({ wordsList, categoryName, onBack }: P
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
-        padding: 20,
+        backgroundColor: 'transparent',
+        paddingHorizontal: 20,
     },
     centerContainer: {
         flex: 1,
@@ -251,9 +253,8 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     title: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: '#333',
+        ...Typography.headingMedium,
+        color: Colours.decorative.gold,
         flex: 1,
     },
     controls: {
@@ -264,19 +265,20 @@ const styles = StyleSheet.create({
     controlButton: {
         paddingVertical: 8,
         paddingHorizontal: 16,
-        borderRadius: 20,
+        borderRadius: 30,
         borderWidth: 1,
-        borderColor: '#6200ee',
+        borderColor: Colours.decorative.purple,
     },
     activeButton: {
-        backgroundColor: '#6200ee',
+        backgroundColor: Colours.decorative.purple,
     },
     controlText: {
-        color: '#6200ee',
+        ...Typography.body,
+        color: Colours.decorative.purple,
         fontSize: 16,
     },
     activeText: {
-        color: 'white',
+        color: Colours.text.inverse,
     },
     cardContainer: {
         flex: 1,
@@ -286,12 +288,14 @@ const styles = StyleSheet.create({
     flashcard: {
         width: windowWidth - 40,
         height: 400,
-        backgroundColor: 'white',
+        backgroundColor: Colours.surface,
         borderRadius: 20,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
+        borderWidth: 1,
+        borderColor: Colours.secondary,
+        shadowColor: 'rgb(0, 0, 0)',
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
         elevation: 5,
     },
     cardContent: {
@@ -301,32 +305,42 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     mainText: {
+        ...Typography.headingMedium,
         fontSize: 32,
         textAlign: 'center',
         marginBottom: 20,
     },
+    arabicText: {
+        ...Typography.arabic,
+        fontSize: 40,
+        textAlign: 'center',
+    },
     translitText: {
+        ...Typography.body,
         fontSize: 20,
-        color: '#666',
+        color: Colours.decorative.copper,
         textAlign: 'center',
         marginBottom: 20,
     },
     tapText: {
+        ...Typography.body,
         fontSize: 14,
-        color: '#999',
+        color: Colours.text.secondary,
         position: 'absolute',
         bottom: 20,
     },
     cardCount: {
+        ...Typography.body,
         textAlign: 'center',
         fontSize: 16,
-        color: '#666',
+        color: Colours.text.secondary,
         marginTop: 20,
     },
     instructions: {
+        ...Typography.body,
         textAlign: 'center',
         fontSize: 14,
-        color: '#999',
+        color: Colours.text.secondary,
         marginTop: 10,
         marginBottom: 20,
     },

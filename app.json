@@ -12,6 +12,32 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "fonts": [
+      {
+        "asset": "./assets/fonts/ArefRuqaa-Regular.ttf",
+        "family": "ArefRuqaa"
+      },
+      {
+        "asset": "./assets/fonts/ArefRuqaa-Bold.ttf",
+        "family": "ArefRuqaa-Bold"
+      },
+      {
+        "asset": "./assets/fonts/NotoKufiArabic-Regular.ttf",
+        "family": "NotoKufiArabic"
+      },
+      {
+        "asset": "./assets/fonts/NotoKufiArabic-Bold.ttf",
+        "family": "NotoKufiArabic-Bold"
+      },
+      {
+        "asset": "./assets/fonts/ClashGrotesk-Light.ttf",
+        "family": "ClashGrotesk-Light"
+      },
+      {
+        "asset": "./assets/fonts/ClashGrotesk-Medium.ttf",
+        "family": "ClashGrotesk"
+      }
+    ],
     "assetBundlePatterns": [
       "**/*"
     ],

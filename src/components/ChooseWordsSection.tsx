@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import {
     View,
-    Text,
     TouchableOpacity,
     StyleSheet,
     ScrollView,
     ActivityIndicator,
-    TextInput,
     SafeAreaView,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { apiClient } from '../utils/apiClient';
 import { capitaliseWords } from '../utils/textUtils';
+import { ClashText, ClashTextInput } from '../components/customComponents/ClashTexts';
+import { Colours, Typography, ComponentStyles } from '../styles/shared';
+import MainPageLayout from './customComponents/MainPageLayout';
 
 interface Category {
     id: string;
@@ -69,86 +70,86 @@ export function ChooseWordsSection({ onChoose, setCategoryName }: Props) {
     if (isLoading) {
         return (
             <View style={styles.centerContainer}>
-                <ActivityIndicator size="large" color="#6200ee" />
+                <ActivityIndicator size="large" color={Colours.decorative.purple} />
             </View>
         );
     }
 
     return (
-        <SafeAreaView style={styles.container}>
-            <ScrollView style={styles.scrollContent}>
-                <View style={styles.contentSection}>
-                    <Text style={styles.title}>Choose a topic</Text>
-                </View>
+        <View style={styles.container}>
+            <View style={styles.contentSection}>
+                <ClashText style={styles.title}>
+                    choose a topic
+                </ClashText>
+            </View>
 
-                <View style={styles.searchContainer}>
-                    <TouchableOpacity
-                        onPress={() => setShowSearch(!showSearch)}
-                        style={styles.searchIcon}
-                    >
-                        <Ionicons name="search" size={24} color="#6200ee" />
-                    </TouchableOpacity>
-                    {showSearch && (
-                        <TextInput
-                            style={styles.searchInput}
-                            placeholder="Search categories..."
-                            value={searchQuery}
-                            onChangeText={setSearchQuery}
+            <View style={styles.searchContainer}>
+                <TouchableOpacity
+                    onPress={() => setShowSearch(!showSearch)}
+                    style={styles.searchIcon}
+                >
+                    <MaterialCommunityIcons name="magnify" size={24} color={Colours.decorative.purple} />
+                </TouchableOpacity>
+                {showSearch && (
+                    <ClashTextInput
+                        style={styles.searchInput}
+                        placeholder="search categories..."
+                        value={searchQuery}
+                        onChangeText={setSearchQuery}
+                    />
+                )}
+            </View>
+
+            <View style={styles.categoriesContainer}>
+                {searchQuery ? (
+                    filteredCategories.map((category) => (
+                        <CategoryCard
+                            key={category.id}
+                            category={category}
+                            onSelect={() => {
+                                onChoose(category.id);
+                                setCategoryName(category.category_name.toLowerCase());
+                            }}
                         />
-                    )}
-                </View>
-
-                <View style={styles.categoriesContainer}>
-                    {searchQuery ? (
-                        filteredCategories.map((category) => (
+                    ))
+                ) : selectedGroup ? (
+                    <>
+                        <TouchableOpacity
+                            style={styles.backButton}
+                            onPress={() => setSelectedGroup(null)}
+                        >
+                            <MaterialCommunityIcons name="arrow-left" size={24} color={Colours.decorative.purple} />
+                            <ClashText style={styles.backButtonText}>back to groups</ClashText>
+                        </TouchableOpacity>
+                        {groupedCategories[selectedGroup]?.map((category) => (
                             <CategoryCard
                                 key={category.id}
                                 category={category}
                                 onSelect={() => {
                                     onChoose(category.id);
-                                    setCategoryName(category.category_name);
+                                    setCategoryName(category.category_name.toLowerCase());
                                 }}
                             />
-                        ))
-                    ) : selectedGroup ? (
-                        <>
-                            <TouchableOpacity
-                                style={styles.backButton}
-                                onPress={() => setSelectedGroup(null)}
-                            >
-                                <Ionicons name="arrow-back" size={24} color="#6200ee" />
-                                <Text style={styles.backButtonText}>Back to groups</Text>
-                            </TouchableOpacity>
-                            {groupedCategories[selectedGroup]?.map((category) => (
-                                <CategoryCard
-                                    key={category.id}
-                                    category={category}
-                                    onSelect={() => {
-                                        onChoose(category.id);
-                                        setCategoryName(category.category_name);
-                                    }}
-                                />
-                            ))}
-                        </>
-                    ) : (
-                        Object.entries(groupedCategories).map(([group, groupCategories]) => (
-                            <TouchableOpacity
-                                key={group}
-                                style={styles.groupCard}
-                                onPress={() => setSelectedGroup(group)}
-                            >
-                                <Text style={styles.groupTitle}>
-                                    {capitaliseWords(group)}
-                                </Text>
-                                <Text style={styles.groupCount}>
-                                    {groupCategories.length} categories
-                                </Text>
-                            </TouchableOpacity>
-                        ))
-                    )}
-                </View>
-            </ScrollView>
-        </SafeAreaView>
+                        ))}
+                    </>
+                ) : (
+                    Object.entries(groupedCategories).map(([group, groupCategories]) => (
+                        <TouchableOpacity
+                            key={group}
+                            style={styles.groupCard}
+                            onPress={() => setSelectedGroup(group)}
+                        >
+                            <ClashText style={styles.groupTitle}>
+                                {group.toLowerCase()}
+                            </ClashText>
+                            <ClashText style={styles.groupCount}>
+                                {groupCategories.length} categories
+                            </ClashText>
+                        </TouchableOpacity>
+                    ))
+                )}
+            </View>
+        </View>
     );
 }
 
@@ -158,24 +159,17 @@ function CategoryCard({ category, onSelect }: {
 }) {
     return (
         <TouchableOpacity style={styles.categoryCard} onPress={onSelect}>
-            <Ionicons name="book-outline" size={24} color="#6200ee" />
-            <Text style={styles.categoryText}>
-                {capitaliseWords(category.category_name)}
-            </Text>
+            <MaterialCommunityIcons name="book-outline" size={24} color={Colours.decorative.purple} />
+            <ClashText style={styles.categoryText}>
+                {category.category_name.toLowerCase()}
+            </ClashText>
         </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
-    // container: {
-    //     flex: 1,
-    //     padding: 20,
-    // },
     container: {
         flex: 1,
-        backgroundColor: '#f5f5f5',
-    },
-    scrollContent: {
         padding: 20,
     },
     centerContainer: {
@@ -187,10 +181,10 @@ const styles = StyleSheet.create({
         marginBottom: 30,
     },
     title: {
-        fontSize: 28,
+        ...Typography.headingMedium,
+        color: Colours.decorative.gold,
+        fontSize: 32,
         textAlign: 'center',
-        fontWeight: 'bold',
-        color: '#6200ee',
         marginBottom: 10,
     },
     searchContainer: {
@@ -202,11 +196,8 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     searchInput: {
+        ...ComponentStyles.input,
         flex: 1,
-        padding: 10,
-        borderWidth: 1,
-        borderColor: '#ddd',
-        borderRadius: 5,
         marginLeft: 10,
     },
     categoriesContainer: {
@@ -216,39 +207,45 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         padding: 15,
-        backgroundColor: 'white',
-        borderRadius: 10,
+        backgroundColor: Colours.surface,
+        borderRadius: 16,
         marginBottom: 10,
-        elevation: 2,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
+        borderWidth: 1,
+        borderColor: Colours.secondary,
+        shadowColor: 'rgb(0, 0, 0)',
+        shadowOffset: { width: 2, height: 2 },
         shadowOpacity: 0.1,
-        shadowRadius: 3,
+        shadowRadius: 4,
+        elevation: 3,
     },
     categoryText: {
+        ...Typography.body,
         marginLeft: 10,
         fontSize: 16,
-        color: '#333',
+        color: Colours.text.primary,
     },
     groupCard: {
         padding: 15,
-        backgroundColor: 'white',
-        borderRadius: 10,
+        backgroundColor: Colours.surface,
+        borderRadius: 16,
         marginBottom: 10,
-        elevation: 2,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
+        borderWidth: 1,
+        borderColor: Colours.secondary,
+        shadowColor: 'rgb(0, 0, 0)',
+        shadowOffset: { width: 2, height: 2 },
         shadowOpacity: 0.1,
-        shadowRadius: 3,
+        shadowRadius: 4,
+        elevation: 3,
     },
     groupTitle: {
+        ...Typography.headingMedium,
         fontSize: 20,
-        fontWeight: 'bold',
-        color: '#333',
+        color: Colours.text.primary,
     },
     groupCount: {
+        ...Typography.body,
         fontSize: 14,
-        color: '#666',
+        color: Colours.text.secondary,
         marginTop: 5,
     },
     backButton: {
@@ -258,8 +255,9 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     backButtonText: {
+        ...Typography.body,
         marginLeft: 10,
         fontSize: 16,
-        color: '#6200ee',
+        color: Colours.decorative.purple,
     },
 });
